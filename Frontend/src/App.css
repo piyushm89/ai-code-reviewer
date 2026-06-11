@@ -1,6 +1,7 @@
+/* Reset */
 * {
-  margin: 0%;
-  padding: 0%;
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
@@ -11,53 +12,137 @@ body,
   width: 100%;
 }
 
+/* Layout container */
 main {
   height: 100%;
   width: 100%;
-  padding: 1.5rem;
+  padding: 2rem 1.25rem;
   display: flex;
-  gap: 1rem;
+  gap: 1.25rem;
+  max-width: 1200px;
+  margin: 1.5rem auto;
+  align-items: stretch;
 }
 
 main .left,
 main .right {
-  height: 100%;
+  height: calc(100vh - 4rem);
   flex-basis: 50%;
-  border-radius: 0.7rem;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
+/* Left panel: editor */
 main .left {
-  background-color: #000000;
   position: relative;
+  background: linear-gradient(180deg, #071226 0%, #091118 60%);
+  border: 1px solid rgba(255,255,255,0.03);
+  box-shadow: 0 12px 40px rgba(2,6,23,0.6);
 }
 
-.left .code,
-.code pre,
-.code pre code {
+.left .code {
   height: 100%;
   width: 100%;
   margin: 0;
-  border-radius: 0.7rem;
-  background-color: #0c0c0c;
+  border-radius: 12px;
+  background: linear-gradient(180deg,#0b0f14 0%, #0c0c0c 100%);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
 }
 
+.left .code .editor {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  border-radius: 8px;
+}
+
+.left .code,
+.left .code pre,
+.left .code pre code {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  background: transparent;
+}
+
+/* Review CTA */
 main .left .review {
   position: absolute;
   bottom: 1rem;
   right: 1rem;
-  background-color: rgb(219, 219, 255);
-  color: #000000;
-  padding: 0.5rem 2rem;
-  font-weight: 500;
+  background: linear-gradient(90deg,#7c5cff 0%, #646cff 100%);
+  color: #ffffff;
+  padding: 0.6rem 1.1rem;
+  font-weight: 600;
   cursor: pointer;
   user-select: none;
-  border-radius: 0.7rem;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(100,108,255,0.28);
+  transition: transform 150ms ease, box-shadow 150ms ease, opacity 150ms ease;
+  border: none;
 }
 
+main .left .review:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 40px rgba(100,108,255,0.26);
+}
 
+main .left .review:active {
+  transform: translateY(-1px) scale(0.997);
+}
+
+/* Right panel: review output */
 main .right {
-  background-color: #343434;
-  padding: 1rem 2rem;
-  font-size: 1.5rem;
+  background: linear-gradient(180deg,#111416 0%, #222426 100%);
+  padding: 22px;
+  font-size: 1rem;
   overflow: auto;
+  color: #e6eef8;
+  border-radius: 12px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.02), 0 10px 40px rgba(2,6,23,0.5);
+}
+
+/* Comfortable line-length for markdown content */
+main .right p,
+main .right pre,
+main .right code {
+  color: #dbeafe;
+  line-height: 1.6;
+}
+
+/* Nice thin custom scrollbar */
+main .right::-webkit-scrollbar,
+.left .code::-webkit-scrollbar,
+main .left::-webkit-scrollbar {
+  height: 10px;
+  width: 10px;
+}
+.left .code::-webkit-scrollbar-thumb,
+main .right::-webkit-scrollbar-thumb {
+  background: rgba(100,108,255,0.18);
+  border-radius: 8px;
+}
+.left .code::-webkit-scrollbar-track,
+main .right::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+@media (max-width: 880px) {
+  main {
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1rem;
+    max-width: 900px;
+  }
+  main .left,
+  main .right {
+    height: auto;
+    flex-basis: auto;
+  }
+  main .left .review {
+    right: 1rem;
+    bottom: 1rem;
+  }
 }
