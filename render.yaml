@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: ai-code-reviewer-api
+    runtime: node
+    rootDir: BackEnd
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: MISTRAL_API_KEY
+        sync: false
