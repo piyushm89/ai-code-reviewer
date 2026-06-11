@@ -1,4 +1,4 @@
-const { Mistral } = require("@mistralai/mistralai");
+const Mistral = require("@mistralai/mistralai").default;
 
 if (!process.env.MISTRAL_API_KEY) {
     throw new Error("MISTRAL_API_KEY is missing in environment variables");
