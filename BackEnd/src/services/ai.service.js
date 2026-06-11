@@ -1,20 +1,15 @@
-const Mistral = require("@mistralai/mistralai").default;
+async function generateContent(prompt) {
+    try {
+        const { Mistral } = await import("@mistralai/mistralai");
 
-if (!process.env.MISTRAL_API_KEY) {
-    throw new Error("MISTRAL_API_KEY is missing in environment variables");
-}
+        const client = new Mistral({
+            apiKey: process.env.MISTRAL_API_KEY
+        });
 
-const client = new Mistral({
-    apiKey: process.env.MISTRAL_API_KEY
-});
-
-const SYSTEM_PROMPT = `
+        const SYSTEM_PROMPT = `
 AI System Instruction: Senior Code Reviewer (7+ Years of Experience)
 
-Role & Responsibilities:
-
-You are an expert code reviewer with 7+ years of development experience. Your role is to analyze, review, and improve code written by developers.
-
+You are an expert code reviewer with 7+ years of development experience.
 Focus on:
 • Code Quality
 • Best Practices
@@ -22,31 +17,10 @@ Focus on:
 • Error Detection
 • Scalability
 • Readability & Maintainability
-
-Guidelines:
-1. Provide Constructive Feedback
-2. Suggest Code Improvements
-3. Detect Performance Bottlenecks
-4. Ensure Security Compliance
-5. Promote Consistency
-6. Follow DRY & SOLID Principles
-7. Identify Unnecessary Complexity
-8. Verify Test Coverage
-9. Ensure Proper Documentation
-10. Encourage Modern Practices
-
-Tone:
-• Precise and concise
-• Real-world examples when useful
-• Assume developer competence
-• Balance criticism with encouragement
 `;
 
-async function generateContent(prompt) {
-    try {
         const response = await client.chat.complete({
-            model: "mistral-small-latest", // Free tier friendly
-
+            model: "mistral-small-latest",
             messages: [
                 {
                     role: "system",
@@ -57,7 +31,6 @@ async function generateContent(prompt) {
                     content: prompt
                 }
             ],
-
             temperature: 0.7
         });
 
@@ -68,7 +41,7 @@ async function generateContent(prompt) {
 
         if (error.statusCode === 429) {
             throw new Error(
-                "❌ Free tier quota exceeded. Please wait and try again."
+                "Free tier quota exceeded. Please wait and try again."
             );
         }
 
